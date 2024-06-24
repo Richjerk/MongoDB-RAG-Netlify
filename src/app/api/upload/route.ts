@@ -5,7 +5,6 @@ import pdf from "pdf-parse";
 import { getEmbeddingsTransformer, searchArgs } from '@/utils/openai';
 import { MongoDBAtlasVectorSearch } from '@langchain/community/vectorstores/mongodb_atlas';
 import { CharacterTextSplitter } from 'langchain/text_splitter';
-import { File } from '@web-std/file';
 
 
 export async function POST(req: NextRequest) {
