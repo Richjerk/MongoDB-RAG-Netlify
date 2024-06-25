@@ -1,5 +1,5 @@
 
-# RAG Based Chat-bot using Langchain and MongoDB Atlas
+# RAG based chatbot using Langchain and MongoDB Atlas
 This starter template implements a Retrieval-Augmented Generation (RAG) chatbot using LangChain and MongoDB Atlas. RAG combines AI language generation with knowledge retrieval for more informative responses. LangChain simplifies building the chatbot logic, while MongoDB Atlas' Vector database capability provides a powerful platform for storing and searching the knowledge base that fuels the chatbot's responses.
 
 ## Setup 
@@ -8,6 +8,7 @@ This starter template implements a Retrieval-Augmented Generation (RAG) chatbot 
 Before you begin, make sure you have the following ready:
 
 - **MongoDB Atlas URI**: Setup your account if you don't already have one ([Create Account](https://www.mongodb.com/docs/guides/atlas/account/))
+  
   _**NOTE** : Make sure you have allowed access using [ip-access-list](https://www.mongodb.com/docs/atlas/security/ip-access-list/) in MongoDB Atlas_
 
 
@@ -26,8 +27,8 @@ Follow the below-mentioned steps to deploy the app :
 Populate the values of the ENV variables mentioned below
 
 ````
-OPENAI_API_KEY = "<YOUR_OPENAI_KEY>"              # API Key copied from the OpenAI portal
-MONGODB_URI = "<YOUR_MONGODB_URI>"                # Connection URI to MongoDB Instance
+OPENAI_API_KEY = "<YOUR_OPENAI_KEY>"       # API Key copied from the OpenAI portal
+MONGODB_URI = "<YOUR_MONGODB_URI>"         # Connection URI to MongoDB Instance
 ````
 
 #### Step 3: Deploy
