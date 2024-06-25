@@ -8,7 +8,9 @@ This starter template implements a Retrieval-Augmented Generation (RAG) chatbot 
 Before you begin, make sure you have the following ready:
 
 - **MongoDB Atlas URI**: Setup your account if you don't already have one ([Create Account](https://www.mongodb.com/docs/guides/atlas/account/))
-    
+  _**NOTE** : Make sure you have allowed access using [ip-access-list](https://www.mongodb.com/docs/atlas/security/ip-access-list/) in MongoDB Atlas_
+
+
 - **OpenAI API Key** (https://platform.openai.com/api-keys)
 
 
