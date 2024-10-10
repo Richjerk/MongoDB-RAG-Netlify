@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Township Small Business Directory</title>
+    <!-- Link to external CSS file if available -->
+    <link rel="stylesheet" href="styles.css"> <!-- Uncomment if using styles.css -->
     <style>
         /* General Styles */
         body {
@@ -204,6 +206,9 @@
         <p>&copy; 2024 Mafisa Tech Affiliate Pty Ltd</p>
     </footer>
 
+    <!-- Link to external JavaScript file if available -->
+    <script src="script.js"></script> <!-- Uncomment if using script.js -->
+
     <script>
         // Handle form submission and display listed business
         document.getElementById('business-form').addEventListener('submit', function (e) {
@@ -245,15 +250,14 @@
             .then(response => response.json())
             .then(data => {
                 const botMessage = document.createElement('p');
-                botMessage.textContent = `Bot: ${data.reply}`;
+                botMessage.textContent = `Bot: ${data.response}`;
                 chatWindow.appendChild(botMessage);
-                chatWindow.scrollTop = chatWindow.scrollHeight;
+                userInput.value = '';  // Clear input field
             });
-
-            userInput.value = '';  // Clear input field
         });
     </script>
 </body>
 
 </html>
+
 
