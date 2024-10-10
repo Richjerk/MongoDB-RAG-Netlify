@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node server/server.js",
     "lint": "next lint"
   },
   "dependencies": {
@@ -14,7 +14,9 @@
     "@web-std/file": "^3.0.3",
     "ai": "^2.2.36",
     "axios": "^1.6.7",
+    "body-parser": "^1.20.3",
     "dotenv": "^16.4.5",
+    "express": "^4.21.1",
     "filepond": "^4.30.6",
     "langchain": "^0.1.20",
     "mongodb": "5.2.0",
