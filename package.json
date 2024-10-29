@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@langchain/community": "^0.0.30",
+    "@langchain/community": "^0.3.10",
     "@langchain/openai": "^0.0.16",
     "@web-std/file": "^3.0.3",
     "ai": "^2.2.36",
@@ -18,7 +18,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "filepond": "^4.30.6",
-    "langchain": "^0.1.20",
+    "langchain": "^0.3.5",
     "mongodb": "5.2.0",
     "next": "14.1.0",
     "pdf-parse": "^1.1.1",
