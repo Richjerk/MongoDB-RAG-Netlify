@@ -1,5 +1,69 @@
+// server.js
+
+const express = require('express'); 
+const path = require('path');
+const chatbotService = require('./chatbotService'); // Import your chatbot service
+
+const app = express();
+
+// Middleware for parsing JSON bodies
+app.use(express.json()); // You can use this instead of bodyParser.json() for JSON requests
+
+// Serve static files (e.g., HTML, CSS, JavaScript) from the public directory
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Serve index.html for the root path
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+// Chatbot API
+app.post('/api/chatbot', async (req, res) => {
+    const { message } = req.body; // Destructure the message from the request body
+    try {
+        const reply = await chatbotService.getReply(message); // Ensure getReply is defined in chatbotService
+        res.json({ reply });
+    } catch (error) {
+        console.error('Error getting reply:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Business listing API
+app.post('/api/businesses', async (req, res) => {
+    const { businessName, businessDescription, businessEmail, businessPhone, businessAddress } = req.body;
+
+    try {
+        // Here you would typically save the business data to your MongoDB database
+        // Example: await db.collection('businesses').insertOne({ businessName, businessDescription, businessEmail, businessPhone, businessAddress });
+
+        console.log('Business data received:', {
+            businessName,
+            businessDescription,
+            businessEmail,
+            businessPhone,
+            businessAddress,
+        });
+
+        // Respond with a success message
+        res.status(201).json({ message: 'Business listed successfully!' });
+    } catch (error) {
+        console.error('Error saving business data:', error);
+        res.status(500).json({ error: 'Error saving business data' });
+    }
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+
+
+// script.js
+
 document.addEventListener('DOMContentLoaded', function () {
-    // Geolocation feature
+    // Get user location for geo-tracking
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             const latitude = position.coords.latitude;
@@ -8,59 +72,48 @@ document.addEventListener('DOMContentLoaded', function () {
         }, function (error) {
             console.error('Error getting location', error);
         });
-    } else {
-        console.log('Geolocation is not supported by this browser.');
     }
 
-    // Chatbot functionality
-    const chatbotInput = document.getElementById('chatbot-input');
-    const chatbotMessages = document.getElementById('chatbot-messages');
-    const chatbotSend = document.getElementById('chatbot-send');
+    const form = document.getElementById('business-form');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-    // Send message to the chatbot
-    chatbotSend.addEventListener('click', async () => {
-        const message = chatbotInput.value;
-        if (message.trim() === '') return;
+        const formData = new FormData(form);
+        const data = {
+            businessName: formData.get('businessName'),
+            businessDescription: formData.get('businessDescription'),
+            businessEmail: formData.get('businessEmail'),
+            businessPhone: formData.get('businessPhone'),
+            businessAddress: formData.get('businessAddress'),
+        };
 
-        // Display the user's message
-        const userMessage = document.createElement('p');
-        userMessage.textContent = `You: ${message}`;
-        chatbotMessages.appendChild(userMessage);
-
-        // Clear input
-        chatbotInput.value = '';
+        // Optional: Handle file upload (if required)
+        const fileInput = document.getElementById('businessImage');
+        const file = fileInput.files[0];
+        if (file) {
+            // Upload the file to your file storage service (not shown here)
+            console.log(`Uploading file: ${file.name}`);
+        }
 
         try {
-            // Send message to the chatbot API (Replace with your API endpoint)
-            const response = await fetch('/api/chatbot', {
+            const response = await fetch('/api/businesses', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ message }),
+                body: JSON.stringify(data),
             });
 
-            const data = await response.json();
-            // Display the chatbot's response
-            const botMessage = document.createElement('p');
-            botMessage.textContent = `Bot: ${data.reply}`; // Assuming your API returns { reply: "..." }
-            chatbotMessages.appendChild(botMessage);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const result = await response.json();
+            alert(result.message); // Display the success message from the response
+            form.reset(); // Reset the form after successful submission
         } catch (error) {
-            console.error('Error:', error);
-            const errorMessage = document.createElement('p');
-            errorMessage.textContent = `Bot: Sorry, I couldn't respond.`;
-            chatbotMessages.appendChild(errorMessage);
-        }
-
-        // Scroll to the bottom of the messages
-        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-    });
-
-    // Optional: Handle "Enter" key to send message
-    chatbotInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-            chatbotSend.click();
+            console.error('Error submitting form:', error);
+            alert('There was an error listing your business. Please try again.');
         }
     });
 });
-
